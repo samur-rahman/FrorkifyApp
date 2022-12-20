@@ -31,6 +31,7 @@ export const loadRecipe = async function (id) {
     console.log(state.recipe);
   } catch (err) {
     console.error(`${err} 💥💥💥`);
+    throw err;  // for the catch in controller.js to display error message on page
   }
 };
 
