@@ -1,5 +1,6 @@
+//import { endsWith } from 'core-js/core/string';
 import { async } from 'regenerator-runtime';
-import { API_URL } from './config.js';
+import { API_URL, RESULTS_PER_PAGE } from './config.js';
 import { getJSON } from './helpers.js';
 
 // all the data to build the app
@@ -8,6 +9,8 @@ export const state = {
   search: {
     query: '',
     results: [],
+    page: 1,
+    resultsPerPage: RESULTS_PER_PAGE,
   },
 };
 
@@ -31,7 +34,7 @@ export const loadRecipe = async function (id) {
     // console.log(state.recipe);
   } catch (err) {
     console.error(`${err} 💥💥💥`);
-    throw err;  // for the catch in controller.js to display error message on page
+    throw err; // for the catch in controller.js to display error message on page
   }
 };
 
@@ -50,10 +53,18 @@ export const loadSearchResults = async function (query) {
         image: rec.image_url,
       };
     });
-
   } catch (err) {
     console.error(`${err} 💥💥💥`);
     throw err;
   }
 };
 
+// show only 10 results in each page (Pagination)
+export const getSearchResultsPage = function (page = state.search.page) {
+  state.search.page = page; // page number
+
+  const start = (page - 1) * state.search.resultsPerPage; // 0
+  const end = page * state.search.resultsPerPage; // 9
+
+  return state.search.results.slice(start, end);
+};
