@@ -8,8 +8,7 @@ class ResultsView extends View {
   _successMessage = '';
 
   _generateMarkup() {
-    console.log(this._data);
-    return this._data.map(this._generateMarkupPreview).join('');       
+    return this._data.map(this._generateMarkupPreview).join('');
   }
 
   // markup loaded after search on left menu
