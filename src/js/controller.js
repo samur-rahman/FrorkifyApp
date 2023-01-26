@@ -30,6 +30,7 @@ const controlRecipes = async function () {
     // displaying error on the page instead of console
     recipeView.renderError();
   }
+
 };
 
 // search functionality
@@ -57,15 +58,27 @@ const controlSearchResults = async function () {
 
 // Pagination event handler on button click
 const controlPagination = function (goToPage) {
-   // render NEW results (updates on clicking buttons)
-   resultsView.render(model.getSearchResultsPage(goToPage)); // 10 results per page pagination
+  // render NEW results (updates on clicking buttons)
+  resultsView.render(model.getSearchResultsPage(goToPage)); // 10 results per page pagination
 
-   // render NEW pagination buttons (page to move)
-   paginationView.render(model.state.search);
+  // render NEW pagination buttons (page to move)
+  paginationView.render(model.state.search);
+};
+
+// updating recipe servings
+const controlServings = function (newServings) {
+  // update the recipe servings (in the state)
+  model.updateServings(newServings);
+
+  // update the recipe view
+  // Rendering recipe
+  recipeView.render(model.state.recipe);
 };
 
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
+  // for click update recipe servings
+  recipeView.addHandlerUpdateServings(controlServings);
   // handler for search button click
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
